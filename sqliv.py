@@ -22,36 +22,36 @@ yahoo = search.Yahoo()
 crawler = Crawler()
 
 
-def singlescan(url):
+def singlescan(URL):
     """instance to scan single targeted domain"""
 
-    if urlparse(url).query != '':
-        result = scanner.scan([url])
-        if result != []:
+    if urlparse(URL).query != '':
+        Result = scanner.scan([URL])
+        if Result != []:
             # scanner.scan print if vulnerable
             # therefore exit
-            return result
+            return Result
 
         else:
             print ""  # move carriage return to newline
             std.stdout("no SQL injection vulnerability found")
-            option = std.stdin("do you want to crawl and continue scanning? [Y/N]", ["Y", "N"], upper=True)
+            Option = std.stdin("do you want to crawl and continue scanning? [Y/N]", ["Y", "N"], upper=True)
 
-            if option == 'N':
+            if Option == 'N':
                 return False
 
     # crawl and scan the links
     # if crawl cannot find links, do some reverse domain
-    std.stdout("going to crawl {}".format(url))
-    urls = crawler.crawl(url)
+    std.stdout("going to crawl {}".format(URL))
+    URLS = crawler.crawl(URL)
 
-    if not urls:
+    if not URLS:
         std.stdout("found no suitable urls to test SQLi")
         #std.stdout("you might want to do reverse domain")
         return False
 
-    std.stdout("found {} urls from crawling".format(len(urls)))
-    vulnerables = scanner.scan(urls)
+    std.stdout("found {} urls from crawling".format(len(URLS)))
+    vulnerables = scanner.scan(URLS)
 
     if vulnerables == []:
         std.stdout("no SQL injection vulnerability found")
@@ -125,16 +125,16 @@ if __name__ == "__main__":
 
         # ask whether user wants to save domains
         std.stdout("scanning multiple websites with crawling will take long")
-        option = std.stdin("do you want save domains? [Y/N]", ["Y", "N"], upper=True)
+        Option = std.stdin("do you want save domains? [Y/N]", ["Y", "N"], upper=True)
 
-        if option == 'Y':
+        if Option == 'Y':
             std.stdout("saved as domains.txt")
             std.dump(domains, "domains.txt")
 
         # ask whether user wants to crawl one by one or exit
-        option = std.stdin("do you want start crawling? [Y/N]", ["Y", "N"], upper=True)
+        Option = std.stdin("do you want start crawling? [Y/N]", ["Y", "N"], upper=True)
 
-        if option == 'N':
+        if Option == 'N':
             exit(0)
 
         vulnerables = []
